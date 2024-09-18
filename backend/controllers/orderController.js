@@ -5,6 +5,10 @@ export const createOrder = async (req, res) => {
   const { items } = req.body;
   const userId = req.user.id;
 
+  if (!items || items.length === 0) {
+    throw new Error('Korpa je prazna');
+  }
+
   try {
     await prisma.$transaction(async (prisma) => {
       let total = 0;
@@ -15,8 +19,12 @@ export const createOrder = async (req, res) => {
           where: { id: item.productId },
         });
 
-        if (!product || product.stock < item.quantity) {
-          return res.status(400).json({ message: `Nedovoljana zaliha za artikal: ${product.name}` });
+        if (!product) {
+          return new Error(`Artikal sa ID-om ${product.id} nije pronađen.`);
+        }
+
+        if (product.stock < item.quantity) {
+          throw new Error(`Nedovoljne zalihe artikla: ${product.name}`);
         }
 
         total += product.price * item.quantity;
@@ -33,24 +41,24 @@ export const createOrder = async (req, res) => {
             stock: product.stock - item.quantity,
           },
         });
-
-        const order = await prisma.order.create({
-          data: {
-            userId: userId,
-            total: total,
-            status: 'PENDING',
-            items: {
-              create: orderItems,
-            },
-          },
-          include: {
-            items: true,
-          },
-        });
-
-        res.status(201).json(order);
       }
-    })
+
+      const order = await prisma.order.create({
+        data: {
+          userId: userId,
+          total: total,
+          status: 'PENDING',
+          items: {
+            create: orderItems,
+          },
+        },
+        include: {
+          items: true,
+        },
+      });
+
+      res.status(201).json(order);
+    });
   } catch (error) {
     res.status(500).json({ error: 'Kreiranje narudžbe nije uspjelo' });
   }
@@ -73,6 +81,11 @@ export const getUserOrders = async (req, res) => {
       },
     });
 
+    if (orders.length === 0) {
+      return res.status(404).json({ message: 'No orders found for this user' });
+    }
+
+
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Dohvaćanje narudžbe nije uspjelo' });
@@ -91,7 +104,12 @@ export const getAllOrders = async (req, res) => {
             price: true
           },
         },
-        user: true
+        user: {
+          select: {
+            id: true,
+            email: true,
+          }
+        }
       },
     });
     res.status(200).json(orders);

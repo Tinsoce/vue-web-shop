@@ -22,7 +22,10 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   const { name, description, price, stock, imageUrl } = req.body;
-  console.log(req.body);
+
+  if (name.trim() === '') {
+    return res.status(409).json({ error: 'Niste unijeli ispravno podatke' });
+  }
   try {
     const newProduct = await prisma.product.create({
       data: { name, description, price, stock, imageUrl },
@@ -30,12 +33,18 @@ export const createProduct = async (req, res) => {
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ error: 'Kreiranje artikla nije uspjelo' });
+    throw error;
   }
 };
 
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, description, price, stock, imageUrl } = req.body;
+
+  if (name.trim() === '') {
+    return res.status(409).json({ error: 'Niste unijeli ispravno podatke' });
+  }
+  
   try {
     const updatedProduct = await prisma.product.update({
       where: { id: parseInt(id) },
