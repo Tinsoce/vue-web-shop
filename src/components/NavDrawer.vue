@@ -24,28 +24,41 @@
 
   const authStore = useAuthStore();
   const isAdmin = authStore.auth.role === 'ADMIN';
+  const isUser = authStore.auth.role === 'USER';
 
   let navItems = [];
 
-  const userNavItems = [
+  const guestUserNavItems = [
     { title: 'Početna', icon: 'mdi-home', href: '/' },
     { title: 'Artikli', icon: 'mdi-shopping', href: '/products' },
     { title: 'O nama', icon: 'mdi-information', href: '/about' },
   ];
 
+  const userNavItems = [
+    { title: 'Narudžbe', icon: 'mdi-truck', href: '/orders' },
+  ];
+
   const adminNavItems = [
-    { title: 'Dodaj artikal', icon: 'mdi-plus-circle-outline', href: '/products/create' },
-    { title: 'Upravljanje artiklima', icon: 'mdi-store-edit', href: '/products/update' },
-    { title: 'Pregled narudžbi', icon: 'mdi-format-list-bulleted', href: '/orders' },
+    { title: 'Dodaj artikal', icon: 'mdi-plus-circle-outline', href: '/manage/create' },
+    { title: 'Upravljanje artiklima', icon: 'mdi-store-edit', href: '/manage' },
+    { title: 'Narudžbe', icon: 'mdi-format-list-bulleted', href: '/orders' },
   ];
 
   if (isAdmin) {
     navItems = [
-      ...userNavItems.slice(0, 2),
+      ...guestUserNavItems.slice(0,2),
       ...adminNavItems,
-      ...userNavItems.slice(2, 3),
+      ...guestUserNavItems.slice(2, 3),
+    ];
+  } else if (isUser) {
+    navItems = [
+      ...guestUserNavItems.slice(0, 2),
+      ...userNavItems,
+      ...guestUserNavItems.slice(2, 3),
     ];
   } else {
-    navItems = [ ...userNavItems ];
+    navItems = [
+      ...guestUserNavItems,
+    ];
   }
 </script>

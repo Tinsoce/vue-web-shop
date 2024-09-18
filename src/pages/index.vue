@@ -1,7 +1,64 @@
 <template>
-  <h1>Početna stranica</h1>
+  <v-container :class="{'fill-height' : $vuetify.display.lgAndUp}" class="d-flex justify-center align-start align-sm-center">
+    <v-card class="w-100" variant="text">
+      <v-row class="d-flex justify-center">
+        <v-col cols="12" md="12" lg="6" class="px-12">
+          <v-img src="/homepage-image.jpg" alt="homepage-image" >
+            <template #placeholder>
+              <v-row class="fill-height my-auto" align-content="center" justify="center">
+                <v-icon class="alt-icon text-primary">mdi-image-outline</v-icon>
+              </v-row>
+            </template>
+          </v-img>
+        </v-col>
+        <v-col class="d-flex flex-column justify-space-between" cols="11" md="11" lg="6">
+          <div>
+            <v-card-titel class="text-h2 font-weight-medium text-primary">Dobrodošli u Stolariju Barbarić – Vaš partner
+              za vrhunski namještaj po mjeri!</v-card-titel>
+            <v-card-text class="text-h6 py-8">U Stolariji Barbarić s ponosom stvaramo unikatni drvni namještaj koji vaš
+              dom pretvara u prostor u kojem ćete uživati. Sa dugogodišnjim iskustvom i posvećenim timom stručnjaka,
+              specijalizirani smo za izradu kuhinja, spavaćih soba, ormara, te ostalih komada namještaja po
+              mjeri.</v-card-text>
+          </div>
+
+          <div class="d-flex py-8 w-100 justify-center">
+            <v-btn class="mx-2" color="primary" size="x-large" rounded variant="flat" to="/products" append-icon="mdi-arrow-right" >Započni</v-btn>
+            <v-btn class="mx-2" color="black" size="x-large" rounded variant="flat" @click="openGithub()" append-icon="mdi-github" >Github</v-btn>
+            <v-btn class="mx-2" color="primary" size="x-large" rounded variant="outlined" to="/about" append-icon="mdi-information" >O nama</v-btn>
+          </div>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
+  <v-container>
+    <v-card class="w-100" variant="text">
+      <v-row width="80%" justify="center">
+        <v-col cols="11">
+          <v-card-title class="text-h4 pb-8 text-primary font-weight-medium">Naša ponuda obuhvaća:</v-card-title>
+          <v-card-text class="text-h6 mx-8">
+            <ul >
+              <li class="px-4 py-1">Moderne i klasične kuhinje dizajnirane da zadovolje sve vaše potrebe i estetske
+                zahtjeve.</li>
+              <li class="px-4 py-1">Spavaće sobe koje pružaju savršenu ravnotežu između udobnosti i funkcionalnosti.</li>
+              <li class="px-4 py-1">Ugradbeni i klasični ormari prilagođeni vašem prostoru, idealni za organizaciju i maksimalnu
+                iskoristivost prostora.</li>
+              <li class="px-4 py-1">Dnevni boravci, komode, police, te ostali namještaj po vašoj želji, izrađen s pažnjom prema
+                detaljima.</li>
+            </ul>
+          </v-card-text>
+          <v-card-text class="text-h6">Svaki naš komad namještaja je izrađen od visokokvalitetnih materijala, s
+            pažljivim naglaskom na dizajn, funkcionalnost i dugovječnost. Mi smo tu da ispunimo sve vaše ideje i želje,
+            bilo da se radi o malom komadu namještaja ili kompletnoj adaptaciji prostora.</v-card-text>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
-  //
+
+const githubLink = 'https://www.github.com/'
+const openGithub = () => {
+  window.open(githubLink, '_blank');
+}
 </script>

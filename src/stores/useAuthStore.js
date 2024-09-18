@@ -1,12 +1,13 @@
 import { useLocalStorage } from "@vueuse/core";
 import axios from "axios";
 import { defineStore } from "pinia";
+import { useCartStore } from "./useCartStore";
 
 const apiUrl = "http://localhost:4000/auth";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    auth: useLocalStorage("auth", {
+    auth: useLocalStorage('auth', {
       token: "",
       isAuthenticated: false,
       role: "",
@@ -73,6 +74,8 @@ export const useAuthStore = defineStore('auth', {
           this.auth.isAuthenticated = false;
           this.auth.token = "";
           this.auth.role = "";
+          const cartStore = useCartStore();
+          cartStore.cart.productsIds = [];
         }
       } catch (error) {
         throw error;
