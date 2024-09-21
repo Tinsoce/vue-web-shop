@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import prisma from '../config/db.js';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];

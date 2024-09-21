@@ -1,9 +1,13 @@
 import bcrypt from 'bcryptjs';
 import prisma from '../config/db.js';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
+  console.log(jwtSecret);
   console.log('Nema JWT tajnog ključa u .env');
 }
 

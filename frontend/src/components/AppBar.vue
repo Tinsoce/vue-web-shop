@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon @click="toggleDrawer" class="text-primary hidden-md-and-up"></v-app-bar-nav-icon>
     </template>
 
-    <div class="d-flex align-start w-100 pl-4">
+    <div class="d-flex align-start w-100 pl-4 pr-4">
     <v-app-bar-title>
       <RouterLink to="/" class="text-decoration-none">
         <v-img src="/logo.jpg" alt="logo" max-width="15rem"></v-img>
@@ -47,6 +47,7 @@ import { useDisplay } from 'vuetify';
 import { useAuthStore } from '@/stores/useAuthStore';
 import router from '@/router';
 import { useCartStore } from '@/stores/useCartStore';
+import NavDrawer from "@/components/NavDrawer.vue";
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -55,7 +56,7 @@ const isAuthenticated = authStore.auth.isAuthenticated;
 const isAdmin = authStore.auth.role === 'ADMIN';
 const isUser = authStore.auth.role === 'USER';
 
-let navItems = [];
+let navItems;
 
 const guestUserNavItems = [
   { title: 'Početna', href: '/' },
