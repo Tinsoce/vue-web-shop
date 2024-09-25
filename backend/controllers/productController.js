@@ -59,7 +59,7 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    await prisma.product.delete({ where: { id: parseInt(id) } });
+    await prisma.product.delete({ where: { id: Number(id) } });
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'Brisanje artikla nije uspjelo' });

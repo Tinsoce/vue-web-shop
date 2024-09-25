@@ -71,6 +71,7 @@ const headers = [
   { title: "ID", text: "ID", value: "id", sortable: true },
   { title: "Naziv", text: "Naziv", value: "name", sortable: true },
   { title: "Opis", text: "Opis", value: "description", sortable: true },
+  { title: "Zalihe", text: "Zalihe", value: "stock", sortable: true },
   { title: "Ažurirano", text: "Ažurirano", value: "updatedAt", sortable: true },
   { title: "Kreirano", text: "Kreirano", value: "createdAt", sortable: true },
   {

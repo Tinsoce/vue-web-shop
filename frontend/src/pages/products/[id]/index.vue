@@ -33,12 +33,11 @@
             <v-card-text class="text-end text-h4">{{ product.price }} KM</v-card-text>
           </v-row>
 
-
           <v-card-actions class="d-flex justify-center">
             <v-row>
               <v-col cols="12" sm="6" md="4" lg="6">
                 <v-btn v-if="authStore.auth.isAuthenticated" width="100%" color="primary" size="large" variant="flat" append-icon="mdi-cart"
-                  rounded @click="addToCart()" to="/cart">Kupi</v-btn>
+                  rounded @click="buy()">Kupi</v-btn>
                 <v-btn v-if="!authStore.auth.isAuthenticated" width="100%" color="primary" size="large" variant="flat" append-icon="mdi-cart"
                   rounded to="/login" >Kupi</v-btn>
               </v-col>
@@ -69,6 +68,7 @@ import { useCartStore } from '@/stores/useCartStore';
 import { useProductStore } from '@/stores/useProductStore';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import router from '@/router';
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -79,6 +79,7 @@ const productId = parseInt(route.params.id);
 const product = ref({});
 const quantity = ref(1);
 const alertVisible = ref(false);
+const alertMessage = ref('');
 
 onMounted(
   async () => {
@@ -96,8 +97,6 @@ const formattedUpdatedAt = computed(() => {
   return 'N/A';
 });
 
-console.log(cartStore.cart.isProductInCart);
-
 const onQuantityChange = () => {
   if (quantity.value < 1) {
     quantity.value = 1;
@@ -107,7 +106,25 @@ const onQuantityChange = () => {
   }
 };
 
+const buy = async () => {
+  if (product.value.stock < quantity.value) {
+    alertMessage.value = 'Nedovoljna količina zalihe';
+    alertVisible.value = true;
+    return;
+  }
+  if (!cartStore.cart.isProductInCart) {
+    cartStore.addProductToCart(product.value.id, parseInt(quantity.value));
+  }
+  await router.push('/cart');
+  window.location.reload();
+};
+
 const addToCart = () => {
+  if (product.value.stock < quantity.value) {
+    alertMessage.value = 'Nedovoljna količina zalihe';
+    alertVisible.value = true;
+    return;
+  }
   cartStore.addProductToCart(product.value.id, parseInt(quantity.value))
   cartStore.checkisProductInCart(productId);
 }

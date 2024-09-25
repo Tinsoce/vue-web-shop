@@ -10,15 +10,15 @@
             <div class="font-weight-medium pt-2">Cijena: </div> {{ formatPrice(order.total) }} KM
             <div v-if="authStore.auth.role === 'ADMIN'"><div class="font-weight-medium pt-2">Email naručitelja: </div> {{ userEmail }}</div>
             <div class="font-weight-medium pt-2">Status: </div> {{ orderStatus(order.status) }}
-            <v-card-actions  v-if="authStore.auth.role === 'ADMIN'">
+            <v-card-actions  v-if="authStore.auth.role === 'ADMIN' && order.status === 'PENDING'">
               <v-row class="pt-4">
                 <v-col cols="6" class="text-end px-1 ">
                   <v-btn append-icon="mdi-checkbox-marked-circle-outline" variant="tonal" rounded color="green"
-                    class="w-100" @click="orderStore.updateOrderStatus(order.id, 'COMPLETED')">Prihvati</v-btn>
+                    class="w-100" @click="approveOrder">Prihvati</v-btn>
                 </v-col>
                 <v-col cols="6" class="text-start px-1" justify-center>
                   <v-btn append-icon="mdi-close-circle-outline" variant="tonal" rounded color="red" class="w-100"
-                    @click="orderStore.updateOrderStatus(order.id, 'CANCELLED')">Odbij</v-btn>
+                    @click="cancelOrder">Odbij</v-btn>
                 </v-col>
               </v-row>
             </v-card-actions>
@@ -26,10 +26,6 @@
           <v-col>
             <v-data-table :headers="headers" :items="products" multi-sort items-per-page-text="Broj stavki po stranici"
               :items-per-page="10" class="text-primary">
-
-              <template v-slot:item.quantity="{ item }">
-                <div>{{ getProductQuantity(item.id) }}</div>
-              </template>
 
               <template v-slot:item.price="{ item }">
                 <div>{{ item.price }} KM</div>
@@ -62,7 +58,7 @@ const order = ref([]);
 const userEmail = ref('');
 
 const headers = [
-  { title: "ID", text: "ID", value: "id", sortable: true },
+  { title: "ID", text: "ID", value: "productId", sortable: true },
   { title: "Naziv", text: "Naziv", value: "name", sortable: true },
   { title: "Količina", text: "Količina", value: "quantity", sortable: true },
   { title: "Cijena", text: "Cijena", value: "price", sortable: true },
@@ -76,10 +72,9 @@ const fetchOrder = async () => {
     if (authStore.auth.role === 'USER') {
       await orderStore.fetchUserOrders()
     }
-    
-    const order = orderStore.orders.filter(order => order.id === orderId);
 
-    return order[0];
+    const fetchedOrder = orderStore.orders.filter(order => order.id === orderId);
+    order.value = fetchedOrder[0];
   } catch (error) {
     console.error('Error fetching order:', error);
   }
@@ -97,32 +92,40 @@ const getProductQuantity = (productId) => {
 
 const fetchProducts = async () => {
   try {
-    if (authStore.auth.role === 'ADMIN') {
-      await orderStore.fetchAllOrders()
+    await fetchOrder();
+    if (order) {
+      products.value = order.value.items;
+      console.log(products.value);
+      if (authStore.auth.role === 'ADMIN') {
+        userEmail.value = order.value.user.email;
+      }
     }
-    if (authStore.auth.role === 'USER') {
-      await orderStore.fetchUserOrders()
-    }
-    const order = orderStore.orders.filter(order => order.id === orderId);
-    const productIds = order[0].items.map(item => item.productId);
-
-    const products = await Promise.all(
-      productIds.map(productId => productStore.fetchProductsById(productId))
-    );
-
-    return products;
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 }
 
+const approveOrder = async () => {
+  try {
+    await orderStore.updateOrderStatus(orderId, 'COMPLETED');
+    order.value.status = 'COMPLETED';
+  } catch (error) {
+    console.error('Error approving order:', error);
+  }
+}
+
+const cancelOrder = async () => {
+  try {
+    await orderStore.updateOrderStatus(orderId, 'CANCELLED');
+    order.value.status = 'CANCELLED';
+  } catch (error) {
+    console.error('Error approving order:', error);
+  }
+}
+
 onMounted(
   async () => {
-    products.value = await fetchProducts();
-    order.value = await fetchOrder();
-    if (authStore.auth.role === 'ADMIN') {
-      userEmail.value = order.value.user.email;
-    }
+    await fetchProducts();
   }
 )
 
@@ -145,7 +148,7 @@ const formatPrice = (value) => {
 
 const orderStatus = (status) => {
   if (status === 'COMPLETED') {
-    return 'ODOBRENA';
+    return 'PRIHVAĆENA';
   } else if (status === 'PENDING') {
     return 'NA ČEKANJU';
   } else if (status === 'CANCELLED') {

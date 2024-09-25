@@ -6,8 +6,8 @@
           <div v-if="cartStore.cart.cartItems.length === 0" class="d-flex justify-center align-center">
             <v-cart-title class="text-center text-primary text-h3">Korpa je prazna!</v-cart-title>
           </div>
-          <div v-for="(product, index) in products" class="mx-4">
-            <v-card :key="index" class="my-2" variant="elevated">
+          <div v-for="product in products" class="mx-4">
+            <v-card :key="product.id" class="my-2" variant="elevated">
               <v-row class="d-flex">
                 <v-col cols="12" sm="4">
                   <v-img :src="product.imageUrl" height="100px" class="bg-secondary">
@@ -40,8 +40,8 @@
 
         <v-col cols="12" sm="10" md="5" lg="5" xl="4" class="d-flex flex-column">
           <v-card-title class="text-primary font-weight-medium text-h4">Korpa</v-card-title>
-          <div v-for="(product, index) in products" class="mx-4 mt-2">
-            <v-row :key="index" class="my-1 d-flex justify-space-between">
+          <div v-for="product in products" class="mx-4 mt-2">
+            <v-row :key="product.id" class="my-1 d-flex justify-space-between">
               <v-col sm="5" md="4" lg="6" xl="7">
                 <v-card-subtitle class="text-start truncate-name">Naziv</v-card-subtitle>
               </v-col>
@@ -95,6 +95,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useCartStore } from '@/stores/useCartStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { computed, onMounted, watch } from 'vue';
+import router from '@/router';
 
 const products = ref([]);
 
@@ -130,8 +131,11 @@ const createOrder = async () => {
     const order = {
       "items": [...cartStore.cart.cartItems]
     }
-    await orderStore.createOrder(order);
-
+    if (totalPrice.value !== 0) {
+      console.log(totalPrice.value);
+      await orderStore.createOrder(order);
+    }
+    window.location.reload();
   } catch (error) {
     if (error.resonse.status >= 400) {
       console.log(error.resonse.data.error);

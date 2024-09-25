@@ -1,12 +1,12 @@
 <template>
-  <v-containter>
+  <v-container>
     <v-row class="d-flex justify-center">
       <v-col cols="11" sm="10">
-        <div v-for="(order, index) in orderStore.orders" class="mx-2 py-2">
-          <v-card :key="index" class="my-2" color="primary" variant="tonal" rounded="xl">
+        <div v-for="order in sortedOrders" class="mx-2 py-2">
+          <v-card :key="order.id" class="my-2" color="primary" variant="tonal" rounded="xl">
             <v-card-title class="text-h4">
               <RouterLink :to="`/order/${order.id}`" class="text-decoration-none text-primary">
-                Narudžba {{ index + 1 }}
+                Narudžba {{ order.id }}
               </RouterLink>
             </v-card-title>
             <v-card-subtitle class="pb-6">
@@ -34,7 +34,7 @@
               <div class="font-weight-medium pr-16 mr-6">Status: </div>
               <div class="text-h6">{{ orderStatus(order.status) }}</div>
             </v-card-text>
-            <v-card-action v-if="authStore.auth.role === 'ADMIN'">
+            <v-card-actions v-if="authStore.auth.role === 'ADMIN' && order.status === 'PENDING'">
               <v-row class="pb-4">
                 <v-col cols="6" class="text-end px-1 pl-7">
                   <v-btn append-icon="mdi-checkbox-marked-circle-outline" variant="tonal" rounded color="green"
@@ -45,20 +45,20 @@
                     @click="orderStore.updateOrderStatus(order.id, 'CANCELLED')">Odbij</v-btn>
                 </v-col>
               </v-row>
-            </v-card-action>
+            </v-card-actions>
           </v-card>
         </div>
       </v-col>
 
     </v-row>
-  </v-containter>
+  </v-container>
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/useAuthStore';
-import { useOrderStore } from '@/stores/useOrderStore';
-import { useProductStore } from '@/stores/useProductStore';
-import { onMounted } from 'vue';
+import {useAuthStore} from '@/stores/useAuthStore';
+import {useOrderStore} from '@/stores/useOrderStore';
+import {useProductStore} from '@/stores/useProductStore';
+import {onMounted} from 'vue';
 
 
 const authStore = useAuthStore();
@@ -68,7 +68,7 @@ const productNames = ref({});
 
 const orderStatus = (status) => {
   if (status === 'COMPLETED') {
-    return 'ODOBRENA';
+    return 'PRIHVAĆENA';
   } else if (status === 'PENDING') {
     return 'NA ČEKANJU';
   } else if (status === 'CANCELLED') {
@@ -91,26 +91,25 @@ const formatPrice = (value) => {
 const fetchProductsNames = async (orderId) => {
   try {
     const order = orderStore.orders.find(order => order.id === orderId);
-    const productIds = order.items.map(item => item.productId);
-
-    const products = await Promise.all(
-      productIds.map(productId => productStore.fetchProductsById(productId))
-    );
-
-    const names = products.map(product => product.name).join(', ');
-    productNames.value[orderId] = names;  // Store the result in productNames
-
+    console.log(order)
+    const names = order.items.map(item => item.name).join(', ');
+    console.log(names);
+    productNames.value[orderId] = names;
   } catch (error) {
     console.error('Error fetching products:', error);
     productNames.value[orderId] = 'Error fetching product names';
   }
 };
 
+const sortedOrders = computed(() =>  {
+  return [...orderStore.orders].sort((a, b) => b.id - a.id);
+});
+
 onMounted(
   async () => {
     if (authStore.auth.role === 'ADMIN') {
       await orderStore.fetchAllOrders();
-    } 
+    }
     if (authStore.auth.role === 'USER') {
       await orderStore.fetchUserOrders();
       console.log(orderStore.orders)

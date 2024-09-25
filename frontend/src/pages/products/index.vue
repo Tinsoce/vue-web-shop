@@ -32,8 +32,8 @@
     </v-row>
 
     <v-row v-if="!loading && !error" class="my-12" dense>
-      <v-col v-for="(product, index) in filteredProducts" cols="12" sm="6" md="4" lg="3">
-        <v-card class="mx-2 my-2" :key="index" variant="elevated" rounded="lg">
+      <v-col v-for="product in filteredProducts" cols="12" sm="6" md="4" lg="3">
+        <v-card class="mx-2 my-2" :key="product.id" variant="elevated" rounded="lg">
           <v-img :src="product.imageUrl" height="200px">
 
             <template #placeholder>
@@ -87,8 +87,8 @@ watch(
 
 const filteredProducts = computed(() => {
   const query = search.value.toLowerCase();
-  return products.value.filter(product => 
-    product.name.toLowerCase().includes(query) || 
+  return products.value.filter(product =>
+    product.name.toLowerCase().includes(query) ||
     product.description.toLowerCase().includes(query)
   );
 });

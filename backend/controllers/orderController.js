@@ -31,15 +31,9 @@ export const createOrder = async (req, res) => {
 
         orderItems.push({
           productId: product.id,
+          name: product.name,
           quantity: item.quantity,
           price: product.price,
-        });
-
-        await prisma.product.update({
-          where: { id: product.id },
-          data: {
-            stock: product.stock - item.quantity,
-          },
         });
       }
 
@@ -74,6 +68,7 @@ export const getUserOrders = async (req, res) => {
         items: {
           select: {
             productId: true,
+            name: true,
             quantity: true,
             price: true,
           }
@@ -100,6 +95,7 @@ export const getAllOrders = async (req, res) => {
           select: {
             id: true,
             productId: true,
+            name: true,
             quantity: true,
             price: true
           },
@@ -130,7 +126,17 @@ export const updateOrderStatus = async (req, res) => {
     const updatedOrder = await prisma.order.update({
       where: { id: parseInt(id) },
       data: { status },
+      include: { items: true },
     });
+
+    if (status === 'COMPLETED') {
+      for (const item of updatedOrder.items) {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: { stock: { decrement: item.quantity } },
+        });
+      }
+    }
 
     res.status(200).json(updatedOrder);
   } catch (error) {
