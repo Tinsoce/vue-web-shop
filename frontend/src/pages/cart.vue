@@ -4,7 +4,7 @@
       <v-row class="d-flex justify-center">
         <v-col cols="12" sm="10" md="7" xl="6">
           <div v-if="cartStore.cart.cartItems.length === 0" class="d-flex justify-center align-center">
-            <v-cart-title class="text-center text-primary text-h3">Korpa je prazna!</v-cart-title>
+            <v-card-title class="text-center text-primary text-h3">Korpa je prazna!</v-card-title>
           </div>
           <div v-for="product in products" class="mx-4">
             <v-card :key="product.id" class="my-2" variant="elevated">
@@ -95,7 +95,6 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useCartStore } from '@/stores/useCartStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { computed, onMounted, watch } from 'vue';
-import router from '@/router';
 
 const products = ref([]);
 
