@@ -34,16 +34,16 @@
     <v-row v-if="!loading && !error" class="my-12" dense>
       <v-col v-for="product in filteredProducts" cols="12" sm="6" md="4" lg="3">
         <v-card class="mx-2 my-2" :key="product.id" variant="elevated" rounded="lg">
-          <v-img :src="product.imageUrl" height="200px">
 
-            <template #placeholder>
-              <RouterLink :to="`/products/${product.id}`" class="text-decoration-none">
-                <v-row class="fill-height bg-secondary" align-content="center" justify="center">
+          <RouterLink :to="`/products/${product.id}`" class="text-decoration-none">
+            <v-img :src="product.imageUrl" height="200px" class="bg-secondary">
+              <template #placeholder>
+                <v-row class="fill-height" align-content="center" justify="center">
                   <v-icon size="6rem" class="alt-icon text-primary">mdi-image-outline</v-icon>
                 </v-row>
-              </RouterLink>
-            </template>
-          </v-img>
+              </template>
+            </v-img>
+          </RouterLink>
           <v-card-title>
             <RouterLink :to="`/products/${product.id}`" class="text-decoration-none text-primary">
               {{ product.name }}
@@ -61,8 +61,8 @@
 </template>
 
 <script setup>
-import { useProductStore } from '@/stores/useProductStore';
-import { onMounted, ref, watch } from 'vue';
+import {useProductStore} from '@/stores/useProductStore';
+import {onMounted, ref, watch} from 'vue';
 
 const products = ref([]);
 const search = ref('');

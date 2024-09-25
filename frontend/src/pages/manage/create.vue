@@ -7,6 +7,10 @@
           <v-card-item>
             <v-sheet>
               <v-form @submit.prevent="submit">
+                <v-label class="pl-4 text-subtitle-1 text-medium-emphasis text-primary opacity-90 font-weight-medium" text="Slika artikla" />
+                <v-file-input density="compact" placeholder="Odaberite sliku artikla" variant="outlined" rounded=""
+                              v-model="form.image" class="mb-1" />
+
                 <v-label class="pl-4 text-subtitle-1 text-medium-emphasis text-primary opacity-90 font-weight-medium" text="Naziv artikla" />
                 <v-text-field density="compact" placeholder="Unesite naziv artikla" variant="outlined" rounded
                   v-model="form.name" :rules="rules.name" class="mb-1" @click:append-inner="visible = !visible"/>
@@ -47,9 +51,9 @@
   const form = ref({
     name: "",
     description: "",
-    imageUrl: "gdsgs",
     price: 10,
     stock: 0,
+    image: null,
   });
   const alertVisible = ref(false);
   const alertMessage = ref('');
@@ -59,9 +63,16 @@
 
   const submit = async () => {
     try {
-      form.value.price = parseFloat(form.value.price);
-      form.value.stock = parseInt(form.value.stock);
-      await productStore.createProduct(form.value);
+      const formData = new FormData();
+      formData.append('name', form.value.name);
+      formData.append('description', form.value.description);
+      formData.append('price', form.value.price);
+      formData.append('stock', form.value.stock);
+      if (form.value.image) {
+        formData.append('image', form.value.image);
+      }
+
+      await productStore.createProduct(formData);
       await router.push('/products');
       window.location.reload();
     } catch (error) {

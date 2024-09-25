@@ -3,7 +3,8 @@
     <v-card class="w-100" variant="text">
       <v-row class="d-flex justify-center">
         <v-col cols="12" sm="10" md="7" lg="7" xl="6">
-          <v-img :src="product.imageUrl" height="400px" rounded="lg" class="bg-secondary">
+          <v-img :src="product.imageUrl" height="400px" rounded="lg" class="bg-secondary"
+                 @click="openImageModal(product.imageUrl)">
             <template #placeholder>
               <v-row class="d-flex justify-center align-center fill-height">
                 <v-icon size="6rem" class="alt-icon text-primary">mdi-image-outline</v-icon>
@@ -59,6 +60,15 @@
       </v-row>
     </v-card>
 
+    <v-dialog v-model="imageModalVisible" max-width="600px">
+      <v-card>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" @click="imageModalVisible = false" variant="text" append-icon="mdi-close">Zatvori</v-btn>
+        </v-card-actions>
+        <v-img :src="selectedImageUrl" aspect-ratio="1.75"></v-img>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -74,12 +84,14 @@ const route = useRoute();
 const authStore = useAuthStore();
 const productStore = useProductStore();
 const cartStore = useCartStore();
-const productId = parseInt(route.params.id);
+const productId = Number(route.params.id);
 
 const product = ref({});
 const quantity = ref(1);
 const alertVisible = ref(false);
 const alertMessage = ref('');
+const imageModalVisible = ref(false);
+const selectedImageUrl = ref('');
 
 onMounted(
   async () => {
@@ -88,6 +100,11 @@ onMounted(
     quantity.value = cartStore.getProductQuantity(productId);
   }
 );
+
+const openImageModal = (imageUrl) => {
+  selectedImageUrl.value = imageUrl;
+  imageModalVisible.value = true;
+};
 
 const formattedUpdatedAt = computed(() => {
   if (product.value.updatedAt) {
@@ -102,7 +119,7 @@ const onQuantityChange = () => {
     quantity.value = 1;
   }
   if (cartStore.cart.isProductInCart) {
-    cartStore.updateProductQuantity(productId, parseInt(quantity.value));
+    cartStore.updateProductQuantity(productId, Number(quantity.value));
   }
 };
 
@@ -113,7 +130,7 @@ const buy = async () => {
     return;
   }
   if (!cartStore.cart.isProductInCart) {
-    cartStore.addProductToCart(product.value.id, parseInt(quantity.value));
+    cartStore.addProductToCart(product.value.id, Number(quantity.value));
   }
   await router.push('/cart');
   window.location.reload();
@@ -125,7 +142,7 @@ const addToCart = () => {
     alertVisible.value = true;
     return;
   }
-  cartStore.addProductToCart(product.value.id, parseInt(quantity.value))
+  cartStore.addProductToCart(product.value.id, Number(quantity.value))
   cartStore.checkisProductInCart(productId);
 }
 

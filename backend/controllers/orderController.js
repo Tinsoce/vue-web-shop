@@ -124,7 +124,7 @@ export const updateOrderStatus = async (req, res) => {
 
   try {
     const updatedOrder = await prisma.order.update({
-      where: { id: parseInt(id) },
+      where: { id: Number(id) },
       data: { status },
       include: { items: true },
     });

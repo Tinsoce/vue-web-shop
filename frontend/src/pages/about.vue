@@ -59,7 +59,7 @@
 
           <v-row>
             <v-card-title class="text-center w-100 mt-6 text-h4 text-primary">{{ firstProfileName }}</v-card-title>
-            <v-card-text class="ma-4 text-h6 ma-lg-6">{{ firstProfileDesc }}</v-card-text>
+            <v-card-text class="ma-4 text-h6 ma-lg-6 text-center">{{ firstProfileDesc }}</v-card-text>
           </v-row>
         </v-card>
 
@@ -76,7 +76,7 @@
 
           <v-row>
             <v-card-title class="text-center w-100 mt-6 text-h4 text-primary">{{ secondProfileName }}</v-card-title>
-            <v-card-text class="ma-4 ma-lg-6 text-h6">{{ secondProfileDesc }}</v-card-text>
+            <v-card-text class="ma-4 ma-lg-6 text-h6 text-center">{{ secondProfileDesc }}</v-card-text>
           </v-row>
         </v-card>
     </v-row>
@@ -93,17 +93,13 @@ const aboutTxt = 'Ovaj projekt je moderna web aplikacija razvijena s Vue.js i Vu
 
 const firstProfileImg = '';
 const firstProfileName = 'Tin Soče';
-const firstProfileDesc = 'Tekst o osobi Lorem Ipsum is simply dummy text of the\n' +
-  '              printing and\n' +
-  '              typesetting industry. Lorem Ipsum has of type and scrambled it to make a type specimen book.\n' +
-  '              It has survived not only five centuries, but also the leap.';
+const firstProfileDesc = 'Dolazim iz Čitluka. Završio sam Opću gimnaziju u Čitluku.' +
+  '              Student sam 3. Godine informatike na fakultetu prirodoslovno-matematičkih i odgojnih znanosti.';
 
 const secondProfileImg = '';
 const secondProfileName = 'Robert Crnoja';
-const secondProfileDesc = 'Tekst o osobi Lorem Ipsum is simply dummy text of the\n' +
-  '              printing and\n' +
-  '              typesetting industry. Lorem Ipsum has of type and scrambled it to make a type specimen book.\n' +
-  '              It has survived not only five centuries, but also the leap.';
+const secondProfileDesc = 'Dolazim iz Jajca. Završio sam srednju školu tehničar za računarstvo.' +
+  '              Student sam 3. godine informatike na fakultetu prirodoslovno-matematičkih i odgojnih znanosti.';
 
 </script>
 
