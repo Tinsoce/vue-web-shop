@@ -4,10 +4,10 @@
       <v-app-bar-nav-icon @click="toggleDrawer" class="text-primary hidden-md-and-up"></v-app-bar-nav-icon>
     </template>
 
-    <div class="d-flex align-start w-100 pl-4 pr-4">
+    <div class="d-flex align-start w-100 pl-4 pr-2 pr-lg-4">
     <v-app-bar-title>
       <RouterLink to="/" class="text-decoration-none">
-        <v-img src="/logo.jpg" alt="logo" max-width="15rem"></v-img>
+        <v-img :src="isDarkMode ? '/logo-dark.jpg' : '/logo.jpg'" alt="logo" max-width="15rem"></v-img>
       </RouterLink>
     </v-app-bar-title>
 
@@ -16,21 +16,28 @@
     <v-btn v-for="(item, index) in navItems" :key="index" :to="item.href" :text="item.title" variant="text" rounded
       class="mx-1 mx-lg-2 text-primary hidden-sm-and-down"/>
 
-    <v-btn to="/cart" variant="plain">
+    <v-btn
+      v-if="display.smAndUp.value"
+      v-model="isDarkMode"
+      color="primary"
+      :icon="isDarkMode ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
+      @click="toggleTheme"
+    />
+    <v-btn v-if="display.smAndUp.value" to="/cart" variant="plain">
       <v-chip color="primary" append-icon="mdi-cart" size="large" class="text-">{{ cartStore.cart.cartItems.length }}</v-chip>
     </v-btn>
 
     <template v-if="!isAuthenticated">
       <v-btn size="small" icon="mdi-login" class="bg-primary mx-2 hidden-sm-and-up" to="/login" />
       <v-btn v-if="display.smAndUp.value" append-icon="mdi-login" class="bg-primary mx-4" to="/login" rounded>
-        Login
+        Prijavi se
       </v-btn>
     </template>
 
     <template v-if="isAuthenticated">
-      <v-btn v-if="display.smAndUp.value" append-icon="mdi-login" variant="outlined" rounded
-        class="bg-outline text-primary mx-4" @click="logOut()">
-        Logout
+      <v-btn v-if="display.smAndUp.value && (display.width.value < 960 || display.width.value >= 1060)" append-icon="mdi-login" variant="outlined" rounded
+        class="bg-outline text-primary mr-3 mr-lg-4" @click="logOut()">
+        Odjavi se
       </v-btn>
       <v-btn v-else size="small" icon="mdi-login" class="bg-outline text-primary mx-4" to="/login" variant="outlined" rounded="xl" />
     </template>
@@ -38,7 +45,7 @@
 
   </v-app-bar>
 
-  <NavDrawer v-model="drawer" />
+  <NavDrawer v-model="drawer" :isDarkMode="isDarkMode" @toggle-theme="toggleTheme"/>
 </template>
 
 <script setup>
@@ -48,6 +55,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import router from '@/router';
 import { useCartStore } from '@/stores/useCartStore';
 import NavDrawer from "@/components/NavDrawer.vue";
+import { useTheme } from 'vuetify';
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -90,13 +98,22 @@ if (isAdmin) {
   ];
 }
 
+
 const drawer = ref(false);
+const isDarkMode = ref(false);
+const theme = useTheme();
 const display = useDisplay();
 
 const updateDrawerState = () => {
   if (display.mdAndUp.value) {
     drawer.value = false;
   }
+};
+
+const toggleTheme = () => {
+  isDarkMode.value = !isDarkMode.value;
+  theme.global.name.value = isDarkMode.value ? 'dark' : 'light';;
+  localStorage.setItem('theme', isDarkMode.value);
 };
 
 watch(
@@ -121,6 +138,14 @@ const logOut = async () => {
     throw error;
   }
 };
+
+onMounted(() => {
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme) {
+    isDarkMode.value = storedTheme === 'true';
+    theme.global.name.value = isDarkMode.value ? 'dark' : 'light';
+  }
+})
 
 </script>
 

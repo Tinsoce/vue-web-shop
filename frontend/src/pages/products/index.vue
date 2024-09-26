@@ -33,7 +33,7 @@
 
     <v-row v-if="!loading && !error" class="my-12" dense>
       <v-col v-for="product in filteredProducts" cols="12" sm="6" md="4" lg="3">
-        <v-card class="mx-2 my-2" :key="product.id" variant="elevated" rounded="lg">
+        <v-card class="mx-2 mx-lg-4 my-4 card-shadow" :key="product.id" variant="flat" rounded="lg">
 
           <RouterLink :to="`/products/${product.id}`" class="text-decoration-none">
             <v-img :src="product.imageUrl" height="200px" class="bg-secondary">
@@ -103,5 +103,9 @@ const filteredProducts = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   height: 2.5rem;
+}
+
+.card-shadow {
+  box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.15);
 }
 </style>

@@ -102,8 +102,10 @@ onMounted(
 );
 
 const openImageModal = (imageUrl) => {
-  selectedImageUrl.value = imageUrl;
-  imageModalVisible.value = true;
+  if (imageUrl !== '') {
+    selectedImageUrl.value = imageUrl;
+    imageModalVisible.value = true;
+  }
 };
 
 const formattedUpdatedAt = computed(() => {

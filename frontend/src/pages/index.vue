@@ -1,5 +1,5 @@
 <template>
-  <v-container :class="{'fill-height' : display.lgAndUp.value}" class="d-flex justify-center align-start align-sm-center">
+  <v-container :min-height="display.lgAndUp.value ? 'calc(100vh - 120px)' : ''" class="d-flex justify-center align-start align-sm-center">
     <v-card class="w-100" variant="text">
       <v-row class="d-flex justify-center">
         <v-col cols="12" md="12" lg="6" class="px-12">
@@ -29,29 +29,27 @@
       </v-row>
     </v-card>
   </v-container>
-  <v-container>
-    <v-card class="w-100" variant="text">
-      <v-row width="80%" justify="center">
-        <v-col cols="11">
-          <v-card-title class="text-h4 pb-8 text-primary font-weight-medium">Naša ponuda obuhvaća:</v-card-title>
-          <v-card-text class="text-h6 mx-8">
-            <ul >
-              <li class="px-4 py-1">Moderne i klasične kuhinje dizajnirane da zadovolje sve vaše potrebe i estetske
-                zahtjeve.</li>
-              <li class="px-4 py-1">Spavaće sobe koje pružaju savršenu ravnotežu između udobnosti i funkcionalnosti.</li>
-              <li class="px-4 py-1">Ugradbeni i klasični ormari prilagođeni vašem prostoru, idealni za organizaciju i maksimalnu
-                iskoristivost prostora.</li>
-              <li class="px-4 py-1">Dnevni boravci, komode, police, te ostali namještaj po vašoj želji, izrađen s pažnjom prema
-                detaljima.</li>
-            </ul>
-          </v-card-text>
-          <v-card-text class="text-h6">Svaki naš komad namještaja je izrađen od visokokvalitetnih materijala, s
-            pažljivim naglaskom na dizajn, funkcionalnost i dugovječnost. Mi smo tu da ispunimo sve vaše ideje i želje,
-            bilo da se radi o malom komadu namještaja ili kompletnoj adaptaciji prostora.</v-card-text>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-container>
+  <v-card class="w-100 bg-background pb-16" variant="text">
+    <v-row width="80%" justify="center">
+      <v-col cols="11">
+        <v-card-title class="text-h4 pb-8 text-primary font-weight-medium">Naša ponuda obuhvaća:</v-card-title>
+        <v-card-text class="text-h6 mx-8">
+          <ul >
+            <li class="px-4 py-1">Moderne i klasične kuhinje dizajnirane da zadovolje sve vaše potrebe i estetske
+              zahtjeve.</li>
+            <li class="px-4 py-1">Spavaće sobe koje pružaju savršenu ravnotežu između udobnosti i funkcionalnosti.</li>
+            <li class="px-4 py-1">Ugradbeni i klasični ormari prilagođeni vašem prostoru, idealni za organizaciju i maksimalnu
+              iskoristivost prostora.</li>
+            <li class="px-4 py-1">Dnevni boravci, komode, police, te ostali namještaj po vašoj želji, izrađen s pažnjom prema
+              detaljima.</li>
+          </ul>
+        </v-card-text>
+        <v-card-text class="text-h6">Svaki naš komad namještaja je izrađen od visokokvalitetnih materijala, s
+          pažljivim naglaskom na dizajn, funkcionalnost i dugovječnost. Mi smo tu da ispunimo sve vaše ideje i želje,
+          bilo da se radi o malom komadu namještaja ili kompletnoj adaptaciji prostora.</v-card-text>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 
