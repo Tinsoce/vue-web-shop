@@ -109,5 +109,3 @@ Aplikacija koristi sljedeće modele:
 - Aplikacija je responzivna i prilagođena svim veličinama ekrana.
 - Omogućena je promjena teme između svijetle i tamne.
 ```
-
-Ovako je sada `README.md` optimiziran i formatiran za GitHub, bez duplikata i s naglaskom na prvo migriranje baze podataka.
