@@ -49,7 +49,7 @@
 
   const theme = useTheme();
 
-  let navItems = [];
+  let navItems;
 
   const guestUserNavItems = [
     { title: 'Početna', icon: 'mdi-home', href: '/' },

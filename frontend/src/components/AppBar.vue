@@ -112,7 +112,7 @@ const updateDrawerState = () => {
 
 const toggleTheme = () => {
   isDarkMode.value = !isDarkMode.value;
-  theme.global.name.value = isDarkMode.value ? 'dark' : 'light';;
+  theme.global.name.value = isDarkMode.value ? 'dark' : 'light';
   localStorage.setItem('theme', isDarkMode.value);
 };
 
@@ -120,8 +120,7 @@ watch(
   () => display.mdAndUp.value,
   () => {
     updateDrawerState();
-  },
-  { immediete: true }
+  }
 );
 
 const toggleDrawer = () => {
