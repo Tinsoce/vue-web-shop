@@ -108,4 +108,3 @@ Aplikacija koristi sljedeće modele:
 - Admin korisnici mogu upravljati zalihama proizvoda, dodavati nove artikle te upravljati narudžbama.
 - Aplikacija je responzivna i prilagođena svim veličinama ekrana.
 - Omogućena je promjena teme između svijetle i tamne.
-```
