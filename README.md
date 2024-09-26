@@ -1,10 +1,10 @@
-# Stolarija Barbarić - Web Shop za Drvni Namještaj
+# 🛠️ Stolarija Barbarić - Web Shop za Drvni Namještaj
 
 Stolarija Barbarić je web aplikacija za prodaju drvnog namještaja, izrađena koristeći moderne tehnologije poput MySQL-a, Express.js-a, Prisma ORM-a te Vue.js-a s Vuetifyjem za frontend. Aplikacija nudi kontrolu pristupa temeljenu na ulogama (korisnik, admin) i podržava upravljanje narudžbama za korisnike i administratore.
 
-## Pokretanje aplikacije
+## 🚀 Pokretanje aplikacije
 
-### .env Datoteka
+### 🔐 .env Datoteka
 
 Primjer `.env` datoteke koju trebate postaviti u backend direktorij:
 
@@ -15,7 +15,7 @@ JWT_SECRET="tajni_kljuc"
 IMGBB_KEY="imgbb_api_kljuc"
 ```
 
-### Pokretanje
+### 📜 Pokretanje
 
 1. **Popunite `.env` datoteku** s potrebnim varijablama okruženja.
 2. **Instalirajte potrebne module** za backend i frontend pomoću `npm install`.
@@ -23,7 +23,7 @@ IMGBB_KEY="imgbb_api_kljuc"
 4. **Migrirajte baze podataka** (samo prvi put) koristeći Prisma.
 5. **Pokrenite backend i frontend servere** koristeći `npm run dev`.
 
-### Backend server:
+### ⚙️ Backend server:
 
 1. U backend direktoriju instalirajte potrebne module:
    ```bash
@@ -51,7 +51,7 @@ IMGBB_KEY="imgbb_api_kljuc"
    npm run dev
    ```
 
-### Frontend server:
+### 🎨 Frontend server:
 
 1. Uđite u frontend direktorij i instalirajte module:
    ```bash
@@ -64,14 +64,14 @@ IMGBB_KEY="imgbb_api_kljuc"
    npm run dev
    ```
 
-## Značajke
+## ✨ Značajke
 
 - **Gost korisnici**: Mogu pregledavati proizvode i dodavati ih u košaricu. Međutim, za dovršetak kupnje potrebno je prijaviti se.
 - **Autentificirani korisnici**: Mogu upravljati košaricom, izvršiti narudžbu i pregledati povijest narudžbi.
 - **Administratori**: Mogu upravljati proizvodima (dodavati, uređivati, brisati) te pregledavati i obrađivati sve narudžbe. Narudžbe mogu biti prihvaćene ili odbijene.
 - **Autentifikacija temeljena na ulogama**: Podrška za različite uloge korisnika (korisnik, admin) korištenjem JWT tokena.
 
-## Tehnologije
+## 🧰 Tehnologije
 
 ### Backend:
 - **Node.js** i **Express.js**: Backend okvir za razvoj REST API-ja.
@@ -90,7 +90,7 @@ IMGBB_KEY="imgbb_api_kljuc"
 - **Pinia**: Upravljanje stanjem aplikacije.
 - **VueUse**: Korištenje `useLocalStorage` za spremanje tokena, uloge korisnika i autentifikacijskih podataka.
 
-## Modeli
+## 🗂️ Modeli
 
 Aplikacija koristi sljedeće modele:
 
@@ -102,7 +102,7 @@ Aplikacija koristi sljedeće modele:
 - **Role (enum)**: Uloge korisnika (USER, ADMIN).
 - **OrderStatus (enum)**: Statusi narudžbi (PENDING, COMPLETED, CANCELLED).
 
-## Funkcionalnosti aplikacije
+## 🛒 Funkcionalnosti aplikacije
 
 - Korisnici mogu pregledavati proizvode, dodavati ih u košaricu te naručivati.
 - Admin korisnici mogu upravljati zalihama proizvoda, dodavati nove artikle te upravljati narudžbama.
