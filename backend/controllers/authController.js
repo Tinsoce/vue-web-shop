@@ -39,6 +39,7 @@ export const registerUser = async (req, res) => {
 
     res.status(201).json({ token });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Registracija nije uspjela'})
   }
 }
@@ -66,6 +67,7 @@ export const loginUser = async (req, res) => {
 
     res.status(200).json({ token });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Prijava nije uspjela' });
   }
 };
@@ -85,6 +87,7 @@ export const getUserData = async (req, res) => {
     
     res.status(200).json(user);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Dohvaćanje korisničkih podataka nije uspjelo'})
   }
 };

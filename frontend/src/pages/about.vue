@@ -48,7 +48,7 @@
       <v-card-title class="text-center text-sm-h3 w-100 text-primary py-6">O nama</v-card-title>
         <v-card class="ma-4" variant="text" min-width="250px" width="350px">
           <v-row justify="center">
-            <v-img :src="firstProfileImg" class="bg-secondary mx-16 mt-4 overflow" height="12rem" rounded="circle">
+            <v-img :src="firstProfileImg" class="bg-secondary mx-16 mt-4 aspect-ratio overflow border-sm" rounded="circle">
               <template #placeholder>
                 <v-row class="image-style" align="center" justify="center">
                   <v-icon size="4rem" class="alt-icon text-primary">mdi-image-outline</v-icon>
@@ -65,7 +65,7 @@
 
         <v-card class="ma-4" variant="text" min-width="250px" width="350px">
           <v-row justify="center">
-            <v-img :src="secondProfileImg" class="bg-secondary mx-16 mt-4 overflow" height="12rem" rounded="circle">
+            <v-img :src="secondProfileImg" class="bg-secondary mx-16 mt-4 overflow aspect-ratio border-sm" rounded="circle">
               <template #placeholder>
                 <v-row class="image-style" align="center" justify="center">
                   <v-icon size="4rem" class="alt-icon text-primary">mdi-image-outline</v-icon>
@@ -91,12 +91,12 @@ const aboutTxt = 'Ovaj projekt je moderna web aplikacija razvijena s Vue.js i Vu
   '            ormara i spavaćih soba. Aplikacija omogućava korisnicima pregled i\n' +
   '            naručivanje proizvoda online.';
 
-const firstProfileImg = '';
+const firstProfileImg = '/tin.jpeg';
 const firstProfileName = 'Tin Soče';
 const firstProfileDesc = 'Dolazim iz Čitluka. Završio sam Opću gimnaziju u Čitluku.' +
   '              Student sam 3. Godine informatike na fakultetu prirodoslovno-matematičkih i odgojnih znanosti.';
 
-const secondProfileImg = '';
+const secondProfileImg = '/robert.jpeg';
 const secondProfileName = 'Robert Crnoja';
 const secondProfileDesc = 'Dolazim iz Jajca. Završio sam srednju školu tehničar za računarstvo.' +
   '              Student sam 3. godine informatike na fakultetu prirodoslovno-matematičkih i odgojnih znanosti.';
@@ -108,5 +108,9 @@ const secondProfileDesc = 'Dolazim iz Jajca. Završio sam srednju školu tehnič
   width: 110%;
   height: 110%;
   border-radius: 50%;
+}
+
+.aspect-ratio {
+  aspect-ratio: 1 / 1;
 }
 </style>

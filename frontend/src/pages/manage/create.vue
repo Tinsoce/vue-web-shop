@@ -32,7 +32,7 @@
                   {{ alertMessage }}
                 </v-alert>
 
-                <v-btn type="submit" block variant="tonal" color="blue-primary text-primary" size="large" class="my-2" rounded>Dodaj</v-btn>
+                <v-btn type="submit" block variant="tonal" color="primary" size="large" class="my-2" rounded>Dodaj</v-btn>
               </v-form>
             </v-sheet>
           </v-card-item>
